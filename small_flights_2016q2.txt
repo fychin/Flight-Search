@@ -1,0 +1,20 @@
+city1	city2	nsmiles	passengers	fare	carrier_lg
+"Los Angeles, CA (Metropolitan Area)"	"San Francisco, CA (Metropolitan Area)"	372	21242.41758	149.5939024	WN
+"Miami, FL (Metropolitan Area)"	"New York City, NY (Metropolitan Area)"	1139	15370.10989	171.0117382	AA
+"Los Angeles, CA (Metropolitan Area)"	"New York City, NY (Metropolitan Area)"	2510	13680.87912	351.4458963	UA
+"Chicago, IL"	"New York City, NY (Metropolitan Area)"	773	12129.12088	182.3932421	AA
+"New York City, NY (Metropolitan Area)"	"Orlando, FL"	989	10717.14286	165.3911716	B6
+"New York City, NY (Metropolitan Area)"	"San Francisco, CA (Metropolitan Area)"	2619	10525.71429	362.482781	UA
+"Los Angeles, CA (Metropolitan Area)"	"Seattle, WA"	978	8570.43956	134.8211268	AS
+"Boston, MA (Metropolitan Area)"	"Washington, DC (Metropolitan Area)"	418	8117.912088	159.2755229	AA
+"Atlanta, GA (Metropolitan Area)"	"New York City, NY (Metropolitan Area)"	795	7706.703297	219.9578189	DL
+"Chicago, IL"	"Los Angeles, CA (Metropolitan Area)"	1750	7103.406593	214.1138983	AA
+"San Francisco, CA (Metropolitan Area)"	"Seattle, WA"	697	7032.857143	153.0731996	AS
+"San Diego, CA"	"San Francisco, CA (Metropolitan Area)"	447	6505.274725	158.8516115	WN
+"Las Vegas, NV"	"San Francisco, CA (Metropolitan Area)"	414	6412.197802	127.2552673	WN
+"Las Vegas, NV"	"Los Angeles, CA (Metropolitan Area)"	236	6371.648352	130.8939188	WN
+"Los Angeles, CA (Metropolitan Area)"	"Washington, DC (Metropolitan Area)"	2329	6170.989011	268.0757426	UA
+"Chicago, IL"	"Washington, DC (Metropolitan Area)"	622	6130.43956	185.5353936	UA
+"Dallas/Fort Worth, TX"	"Los Angeles, CA (Metropolitan Area)"	1246	5961.428571	178.6317554	AA
+"Dallas/Fort Worth, TX"	"New York City, NY (Metropolitan Area)"	1428	5932.087912	208.9437035	AA
+"Los Angeles, CA (Metropolitan Area)"	"Sacramento, CA"	404	5831.648352	149.3032468	WN
