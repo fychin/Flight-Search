@@ -1,9 +1,5 @@
-# Ignore everything
-*
-
-# Except
-!.gitignore
-!README.md
-!findflights.cpp
-!flights_fare_2016q2.txt
-!small_flights_2016q2.txt
+*.txt
+*.tsv
+*.swp
+*.vcxproj
+*.filters
