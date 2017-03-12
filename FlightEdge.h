@@ -1,1 +1,31 @@
-#pragma once
+#ifndef FLIGHTEDGE_H
+#define FLIGHTEDGE_H
+#include <iostream>
+#include "CityNode.h"
+
+using namespace std;
+
+class CityNode;
+
+class FlightEdge
+{
+private:
+	CityNode* destination;
+	CityNode* origin;
+	double distance;
+	double fare;
+	string carrier;
+	bool traversed;	// mark as traversed for output (IF traversed==true, then this path is saved for output)
+public:
+	FlightEdge(CityNode* org, CityNode* dest, double miles, double price, string cr) : 
+		origin(org), destination(dest), distance(miles), 
+		fare(price), carrier(cr), traversed(false) {}
+	// Accessor functions
+	double getFare() const;
+	double getDistance() const;
+	string getCarrier() const;
+	CityNode* getDestination() const;
+	CityNode* getOrigin() const;
+};
+
+#endif
