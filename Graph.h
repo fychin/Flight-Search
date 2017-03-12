@@ -20,6 +20,7 @@ struct CompareFare
 class Graph
 {
 private:
+	CityNode* citySource;
 	double totalFareCost;
 	unordered_map<string, CityNode*> cities;
 	priority_queue<FlightEdge*, vector<FlightEdge*>, CompareFare> flightFares;	// Sort flights by lowest fares

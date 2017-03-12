@@ -2,6 +2,7 @@
 #include <string>
 #include <sstream>
 #include <iomanip>
+#include <stack>
 
 void Graph::buildGraph(ifstream & inputData)
 {
@@ -76,12 +77,13 @@ CityNode* Graph::readCitySource(ifstream & citySourceData)
 Graph::Graph(ifstream & inputData)
 {
 	totalFareCost = 0;
+	citySource = NULL;
 	buildGraph(inputData);
 }
 
 void Graph::findMinimumSpaningTree(ifstream & citySourceData)
 {
-	CityNode* citySource = readCitySource(citySourceData);
+	citySource = readCitySource(citySourceData);
 	// Check for valid city name
 	if (!citySource) {
 		cout << "Invalid city provided, please provide an existing city name from the dataset.\n";
@@ -101,6 +103,7 @@ void Graph::findMinimumSpaningTree(ifstream & citySourceData)
 		if (!adjacentNode->getDone()) {
 			adjacentNode->setDone(true);
 			adjacentNode->setPrev(currEdge->getOrigin());
+			currEdge->setIsMSTpath(true);
 			for (auto adjEdge : adjacentNode->getConnections()) {
 				pq.push(adjEdge);
 			}
@@ -115,12 +118,42 @@ void Graph::outputFlightPaths(ofstream & outFile)
 		cout << "Error opening output file.\n";
 		return;
 	}
-	for (auto it = cities.begin(); it != cities.end(); ++it) {
-		if (!it->second->getPrev()) continue;	// skip if it is not a part of the MST.
-		// Find the path by starting from this node to the starting city. store into stack
-		CityNode* currNode = it->second;
-		//for()
+
+	// Starting from source, perform DFS.
+	stack<FlightEdge*> edgeStack;
+	for (FlightEdge* edge : citySource->getConnections()) {
+		if (edge->getIsMSTpath()) {
+			edgeStack.push(edge);
+		}
 	}
+	cout << "Starting from " << citySource->getName() << ":" << endl;
+	double prevFareTotal = 0;
+	// Start Depth First Search
+	while (!edgeStack.empty()) {
+		FlightEdge* currEdge = edgeStack.top();
+		currEdge->setTraversed(true);
+		CityNode* nextDestination = currEdge->getDestination();
+		cout << "--" << currEdge->getCarrier() << "-->" << nextDestination->getName() << endl;
+		totalFareCost += currEdge->getFare();
+		edgeStack.pop();
+
+		int mstPathCount = 0;
+		for (FlightEdge* adjEdge : nextDestination->getConnections()) {
+			if (adjEdge->getIsMSTpath()) {
+				edgeStack.push(adjEdge);
+				++mstPathCount;
+			}
+		}
+		// End of path
+		if (mstPathCount == 0) {
+			cout << "End of path.\n";
+			cout << "Lowest fare cost: " << totalFareCost - prevFareTotal << endl;
+			prevFareTotal = totalFareCost;
+			cout << "\nStarting from " << citySource->getName() << ":" << endl;
+		}
+	}
+
+	cout << "\n\nLowest cost to visit all cities from " << citySource->getName() << ":\n" << totalFareCost << endl;
 }
 
 Graph::~Graph()

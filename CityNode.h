@@ -23,6 +23,7 @@ public:
 	string getName() const;
 	unordered_set<FlightEdge*> getConnections() const;
 	bool getDone() const;
+	CityNode* getPrev() const;
 
 	// Mutator functions
 	void setDone(bool status);

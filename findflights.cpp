@@ -19,7 +19,7 @@ int main(int argc, char** argv)
 	ifstream citysourceFile("city_source.txt");
 	flightsGraph.findMinimumSpaningTree(citysourceFile);
 
-	cout << "Writing flights to file...\n";
+	cout << "Writing flights to file...\n\n\n";
 	ofstream outFile("flight_paths.txt");
 	flightsGraph.outputFlightPaths(outFile);
 

@@ -24,3 +24,23 @@ CityNode* FlightEdge::getOrigin() const
 {
 	return origin;
 }
+
+bool FlightEdge::getTraversed() const
+{
+	return traversed;
+}
+
+bool FlightEdge::getIsMSTpath() const
+{
+	return isMSTpath;
+}
+
+void FlightEdge::setTraversed(bool status)
+{
+	traversed = status;
+}
+
+void FlightEdge::setIsMSTpath(bool status)
+{
+	isMSTpath = status;
+}
