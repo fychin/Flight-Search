@@ -14,7 +14,7 @@ private:
 	string name;
 	unordered_set<FlightEdge*> flightConnections;
 	bool done;
-	CityNode* prev;
+	FlightEdge* prev;
 
 public:
 	// Constructor
@@ -23,11 +23,11 @@ public:
 	string getName() const;
 	unordered_set<FlightEdge*> getConnections() const;
 	bool getDone() const;
-	CityNode* getPrev() const;
+	FlightEdge* getPrev() const;
 
 	// Mutator functions
 	void setDone(bool status);
-	void setPrev(CityNode* previous);
+	void setPrev(FlightEdge* previous);
 	void addConnection(FlightEdge* flight);
 
 };

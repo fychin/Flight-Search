@@ -12,7 +12,8 @@ using namespace std;
 
 int main(int argc, char** argv) 
 {
-	ifstream inFile("flights_fare_2016q2.txt");
+	//ifstream inFile("updated.txt");
+	ifstream inFile("large_flights_fare_2016q2.txt");
 	Graph flightsGraph(inFile);
 
 	cout << "Finding minimum spanning tree...\n";

@@ -25,6 +25,8 @@ private:
 	unordered_map<string, CityNode*> cities;
 	priority_queue<FlightEdge*, vector<FlightEdge*>, CompareFare> flightFares;	// Sort flights by lowest fares
 
+	unordered_set<FlightEdge*> mstPaths;
+
 	void buildGraph(ifstream& inputData);
 	CityNode* readCitySource(ifstream& citySourceData);
 public:

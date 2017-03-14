@@ -16,7 +16,7 @@ private:
 	double fare;
 	string carrier;
 	bool isMSTpath;
-	bool traversed;	// mark as traversed for output (IF traversed==true, then this path is saved for output)
+	bool traversed;	// mark terminal edge as traversed (ending mst path)
 public:
 	FlightEdge(CityNode* org, CityNode* dest, double miles, double price, string cr) : 
 		origin(org), destination(dest), distance(miles), 

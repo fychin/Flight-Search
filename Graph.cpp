@@ -102,8 +102,9 @@ void Graph::findMinimumSpaningTree(ifstream & citySourceData)
 		CityNode* adjacentNode = currEdge->getDestination();
 		if (!adjacentNode->getDone()) {
 			adjacentNode->setDone(true);
-			adjacentNode->setPrev(currEdge->getOrigin());
+			adjacentNode->setPrev(currEdge);
 			currEdge->setIsMSTpath(true);
+			mstPaths.insert(currEdge);
 			for (auto adjEdge : adjacentNode->getConnections()) {
 				pq.push(adjEdge);
 			}
@@ -119,47 +120,50 @@ void Graph::outputFlightPaths(ofstream & outFile)
 		return;
 	}
 
-	// Starting from source, perform DFS.
-	stack<FlightEdge*> edgeStack;
-	for (FlightEdge* edge : citySource->getConnections()) {
-		if (edge->getIsMSTpath()) {
-			edgeStack.push(edge);
-		}
-	}
-	cout << "Starting from " << citySource->getName() << ":" << endl;
-	double prevFareTotal = 0;
-	// Start Depth First Search
-	while (!edgeStack.empty()) {
-		FlightEdge* currEdge = edgeStack.top();
-		currEdge->setTraversed(true);
-		CityNode* nextDestination = currEdge->getDestination();
-		cout << "--" << currEdge->getCarrier() << "-->" << nextDestination->getName() << endl;
-		totalFareCost += currEdge->getFare();
-		edgeStack.pop();
-
-		int mstPathCount = 0;
-		for (FlightEdge* adjEdge : nextDestination->getConnections()) {
-			if (adjEdge->getIsMSTpath()) {
-				edgeStack.push(adjEdge);
-				++mstPathCount;
+	// Check every mstPath for terminal edge
+	for (auto mstIt : mstPaths) {
+		FlightEdge* currEdge = mstIt;
+		// Check if current edge is a terminal, if yes, back track and print path
+		bool isTerminalEdge = true;
+		auto outgoingEdges = currEdge->getDestination()->getConnections();
+		// Find mstPath from outgoing edges of adjacent node to check for terminal node
+		for (auto adjNodeEdge : outgoingEdges) {
+			if (adjNodeEdge->getIsMSTpath()) {
+				isTerminalEdge = false;	// not a terminal node
+				break;
 			}
 		}
-		// End of path
-		if (mstPathCount == 0) {
-			cout << "End of path.\n";
-			cout << "Lowest fare cost: " << totalFareCost - prevFareTotal << endl;
-			prevFareTotal = totalFareCost;
-			cout << "\nStarting from " << citySource->getName() << ":" << endl;
+		// Bactrack from terminal edge and print path
+		if (isTerminalEdge && !currEdge->getTraversed()) {
+			FlightEdge* prevEdge = currEdge;
+			currEdge->setTraversed(true);
+			while (prevEdge->getOrigin() != citySource) {
+				outFile << prevEdge->getOrigin()->getName()
+					<< "--" << prevEdge->getCarrier() << "-->"
+					<< prevEdge->getDestination()->getName()
+					<< "\t\tFare: " << prevEdge->getFare() << endl;
+				prevEdge = prevEdge->getOrigin()->getPrev();
+				totalFareCost += prevEdge->getFare();
+			}
+			outFile << prevEdge->getOrigin()->getName()
+				<< "--" << prevEdge->getCarrier() << "-->"
+				<< prevEdge->getDestination()->getName()
+				<< "\t\tFare: " << prevEdge->getFare() << endl;
+			outFile << "\n------------------------------------------------------------------------------\n\n";
+			totalFareCost += prevEdge->getFare();
 		}
 	}
-
-	cout << "\n\nLowest cost to visit all cities from " << citySource->getName() << ":\n" << totalFareCost << endl;
+	// Print total cost
+	outFile << "\n\nLowest cost to visit all cities from " << citySource->getName() << ":\n" << totalFareCost << endl;
 }
 
 Graph::~Graph()
 {
 	for (auto it = cities.begin(); it != cities.end(); ++it) {
+		unordered_set<FlightEdge*> connections = it->second->getConnections();
+		for (FlightEdge* edge : connections) {
+			delete edge;
+		}
 		delete it->second;
 	}
-	// do the same for flight edge to free them
 }

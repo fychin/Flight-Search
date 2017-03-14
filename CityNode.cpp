@@ -15,7 +15,7 @@ bool CityNode::getDone() const
 	return done;
 }
 
-CityNode * CityNode::getPrev() const
+FlightEdge* CityNode::getPrev() const
 {
 	return prev;
 }
@@ -25,7 +25,7 @@ void CityNode::setDone(bool status)
 	done = status;
 }
 
-void CityNode::setPrev(CityNode* previous)
+void CityNode::setPrev(FlightEdge* previous)
 {
 	prev = previous;
 }
