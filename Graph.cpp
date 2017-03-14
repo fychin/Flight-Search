@@ -137,24 +137,36 @@ void Graph::outputFlightPaths(ofstream & outFile)
 		if (isTerminalEdge && !currEdge->getTraversed()) {
 			FlightEdge* prevEdge = currEdge;
 			currEdge->setTraversed(true);
+			stack<FlightEdge*> flightsPath;	// Use stack to reverse the order of flights printed
+			double totalPathCost = currEdge->getFare();	// CHCK LATER
+			// Get previous path (from terminal node to starting city source node)
 			while (prevEdge->getOrigin() != citySource) {
-				outFile << prevEdge->getOrigin()->getName()
-					<< "--" << prevEdge->getCarrier() << "-->"
-					<< prevEdge->getDestination()->getName()
-					<< "\t\tFare: " << prevEdge->getFare() << endl;
+				totalPathCost += prevEdge->getFare();
+				flightsPath.push(prevEdge);
 				prevEdge = prevEdge->getOrigin()->getPrev();
 				totalFareCost += prevEdge->getFare();
 			}
+			// Print full path
 			outFile << prevEdge->getOrigin()->getName()
 				<< "--" << prevEdge->getCarrier() << "-->"
-				<< prevEdge->getDestination()->getName()
-				<< "\t\tFare: " << prevEdge->getFare() << endl;
-			outFile << "\n------------------------------------------------------------------------------\n\n";
+				<< left << setw(60) << prevEdge->getDestination()->getName()
+				<< "\t\tFare: $" << prevEdge->getFare() << endl;
+			while (!flightsPath.empty()) {
+				FlightEdge* thisEdge = flightsPath.top();
+				outFile << thisEdge->getOrigin()->getName()
+					<< "--" << thisEdge->getCarrier() << "-->"
+					<< left << setw(60) << thisEdge->getDestination()->getName()
+					<< "\t\tFare: $" << thisEdge->getFare() << endl;
+				flightsPath.pop();
+			}
+			outFile << "\nTotal cost for this path: $" << totalPathCost << endl;
+			outFile << "\n-----------------------------------------------------"
+				<< "--------------------------------------------------------\n\n";
 			totalFareCost += prevEdge->getFare();
 		}
 	}
 	// Print total cost
-	outFile << "\n\nLowest cost to visit all cities from " << citySource->getName() << ":\n" << totalFareCost << endl;
+	outFile << "\n\nLowest cost to visit all cities from " << citySource->getName() << ": $" << totalFareCost << endl;
 }
 
 Graph::~Graph()
